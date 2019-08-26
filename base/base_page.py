@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from traceback import print_stack
 import logging
-import utilities.custom_logger as cl
+import config.custom_logger as cl
 import time
 import os
 import pytest

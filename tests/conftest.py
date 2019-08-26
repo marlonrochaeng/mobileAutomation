@@ -24,7 +24,7 @@ def pytest_sessionfinish(session, exitstatus):
     return sum(1 for result in session.results.values() if result.failed)
 
 @pytest.yield_fixture(scope='function')
-def Device(request, device):
+def DeviceSetup(request, device):
     print("Running device setUp")
     if safe_str_cmp(device,'ios'):
         print("Tests will be executed on ios")
@@ -33,18 +33,16 @@ def Device(request, device):
         print("Tests will be executed on Android")
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = '8.1'
         desired_caps['automationName'] = 'uiautomator2'
-        desired_caps['deviceName'] = 'Android Emulator'
-        desired_caps['app'] = '../../../apps/selendroid-test-app.apk'
+        desired_caps['deviceName'] = 'emulator-5554'
+        desired_caps['appPackage'] = 'com.android.calculator2'
+        desired_caps['appActivity'] = 'com.android.calculator2.Calculator'
 
         driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
     
     #add implicity wait
-
     if request.cls:
-        request.cls.driver = driver
-    
+        request.cls.driver = driver   
     yield driver
 
 def pytest_addoption(parser):
@@ -52,7 +50,7 @@ def pytest_addoption(parser):
     parser.addoption("--osType", help="Operating system...")
 
 @pytest.fixture(scope='session')
-def browser(request):
+def device(request):
     return request.config.getoption("--device")
 
 @pytest.fixture(scope='session')
