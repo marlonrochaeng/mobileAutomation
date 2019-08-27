@@ -42,7 +42,8 @@ def DeviceSetup(request, device):
     
     #add implicity wait
     if request.cls:
-        request.cls.driver = driver   
+        request.cls.driver = driver
+
     yield driver
 
 def pytest_addoption(parser):

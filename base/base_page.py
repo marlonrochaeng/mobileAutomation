@@ -8,6 +8,7 @@ import config.custom_logger as cl
 import time
 import os
 import pytest
+import base64
 
 
 class BasePage():
@@ -43,6 +44,17 @@ class BasePage():
         except:
             self.log.error("### Exception Ocurred")
             print_stack()
+
+    def GenerateVideo(self):
+        video_dir = os.path.join('screenshots/' ,str(pytest.time_start))
+        self.driver.start_recording_screen()
+        yield
+        video_payload = self.driver.stop_recording_screen()
+        video_name = os.path.join(video_dir,'video record.mp4')
+        if not os.path.exists(video_dir): 
+            os.makedirs(video_dir, exist_ok=True)
+        with open(video_name, "wb") as fd:
+            fd.write(base64.b64decode(video_payload))
 
     def GetElement(self, locatorType="xpath", locator=""):
         element = None
