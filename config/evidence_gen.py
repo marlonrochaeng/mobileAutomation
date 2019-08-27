@@ -27,7 +27,7 @@ class EvidenceGenerator():
     def addEvidence(self, testName, evidenceName, picture):
         self.document.add_heading(testName, level=1)
         self.document.add_paragraph(evidenceName, style='Intense Quote')
-        self.document.add_picture(picture, width=Inches(6.25))
+        self.document.add_picture(picture, width=Inches(2.25))
         self.document.add_page_break()
 
     def createDocument(self, doc_test):

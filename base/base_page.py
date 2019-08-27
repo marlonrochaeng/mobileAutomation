@@ -71,6 +71,15 @@ class BasePage():
         except:
             self.log.info("Could not send keys to element: " + locator + " with locatorType: " + locatorType)
             print_stack()
+    
+    def GetElementText(self, locatorType='xpath', locator=''):
+        try:
+            element = self.GetElement(locatorType, locator)
+            self.log.info("Element text captured:" + element.text)
+            return element.text
+        except:
+            self.log.info("Could get element text: " + locator + " with locatorType: " + locatorType)
+            print_stack()
 
     def IsElementPresent(self, locatorType="xpath", locator=""):
         try:

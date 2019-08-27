@@ -17,8 +17,17 @@ class Calculator(unittest.TestCase):
         self.calculatorPage = CalculatorPage(self.driver)#criar pagina
 
     #@data(*getCsvData('C:\\Users\\malencar\\Documents\\MeusProjetos\\WebAutomation\\data\\invalid_login_test.csv'))
-    @unpack
+    #@unpack
     def test_valid_calculator(self):
         self.calculatorPage.DoMath('6','multiply','6')
-        self.calculatorPage.markFinal("test_valid_calculator",True, "Multiplying")
+        result = self.calculatorPage.IsExpectedResult(36)
+        self.calculatorPage.markFinal("test_valid_calculator",
+                                        result, "Multiplying")
+        self.driver.quit()
+    
+    def test_invalid_calculator(self):
+        self.calculatorPage.DoMath('6','divide','6')
+        result = not self.calculatorPage.IsExpectedResult(14)
+        self.calculatorPage.markFinal("test_invalid_calculator",
+                                        result, "Multiplying")
         self.driver.quit()
