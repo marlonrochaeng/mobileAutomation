@@ -18,6 +18,7 @@ class BasePage():
     def __init__(self, driver):
         self.driver = driver
         self.resultList = []
+        self.video_dir = ''
 
     def GetByType(self, locatorType):
         locatorType = locatorType.lower()
@@ -47,13 +48,14 @@ class BasePage():
 
 
     def GenerateVideo(self):
-        video_dir = os.path.join('screenshots/' ,str(pytest.time_start)+'/'+os.environ.get('PYTEST_CURRENT_TEST').split(':')[-1].split(' ')[0]+'/')
+        self.video_dir = os.path.join('screenshots/' ,str(pytest.time_start)+'/'+os.environ.get('PYTEST_CURRENT_TEST').split(':')[-1].split(' ')[0]+'/')
         self.driver.start_recording_screen()
-        yield
+    
+    def SaveVideoToFolder(self):
         video_payload = self.driver.stop_recording_screen()
-        video_name = os.path.join(video_dir,'video record.mp4')
-        if not os.path.exists(video_dir): 
-            os.makedirs(video_dir, exist_ok=True)
+        video_name = os.path.join(self.video_dir,'video record.mp4')
+        if not os.path.exists(self.video_dir): 
+            os.makedirs(self.video_dir, exist_ok=True)
         with open(video_name, "wb") as fd:
             fd.write(base64.b64decode(video_payload))
 

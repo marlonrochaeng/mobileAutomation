@@ -8,7 +8,6 @@ from werkzeug.security import safe_str_cmp
 
 SCREENSHOT = 'screenshots/'
 
-
 def pytest_sessionstart(session):
     session.results = dict()
 
@@ -74,5 +73,6 @@ def GenerateEvidence(request,scope='session'):
         evidencias = []
         evidencias = os.listdir(TEST_DIR+'/'+subdir+'/')
         for e in evidencias:            
-            doc.addEvidence(subdir,e,TEST_DIR+'/'+subdir+'/'+e)
+            if '.mp4' not in e:
+                doc.addEvidence(subdir,e,TEST_DIR+'/'+subdir+'/'+e)
     doc.createDocument(TEST_DIR+'/'+"doc.docx")
