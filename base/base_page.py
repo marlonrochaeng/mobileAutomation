@@ -45,8 +45,9 @@ class BasePage():
             self.log.error("### Exception Ocurred")
             print_stack()
 
+
     def GenerateVideo(self):
-        video_dir = os.path.join('screenshots/' ,str(pytest.time_start))
+        video_dir = os.path.join('screenshots/' ,str(pytest.time_start)+'/'+os.environ.get('PYTEST_CURRENT_TEST').split(':')[-1].split(' ')[0]+'/')
         self.driver.start_recording_screen()
         yield
         video_payload = self.driver.stop_recording_screen()
